@@ -1,12 +1,23 @@
 
 #ifndef SHARED_MUTEX_H
 #define SHARED_MUTEX_H
-#include <mutex>
+
+
+#if _WIN32
+#endif
+
+#ifdef __linux__
+
 #include <sys/mman.h>
+#include <sys/mman.h>
+
+#endif
+
+
+#include <mutex>
 #include <iostream>
 #include <string>
 #include <fcntl.h>
-#include <sys/mman.h>
 #include <exception>
 #include <atomic>
 

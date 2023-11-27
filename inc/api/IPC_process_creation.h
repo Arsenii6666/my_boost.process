@@ -5,6 +5,12 @@
 #include "Pipe.h"
 #include "SharedMemory.h"
 
+#if _WIN32
+#endif
+
+#ifdef __linux__
+#endif
+
 class IPC_process_creation : public ProcessCreation {
 public:
     template <typename T>

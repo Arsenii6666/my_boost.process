@@ -1,6 +1,12 @@
 #ifndef MYRLS_PROCESS_CREATION_H
 #define MYRLS_PROCESS_CREATION_H
 
+#if _WIN32
+#endif
+
+#ifdef __linux__
+#endif
+
 #include <string>
 #include <vector>
 #include "Process.h"

@@ -1,6 +1,16 @@
 
 #ifndef MY_BOOST_PROCESS_SHARED_MEMORY_H
 #define MY_BOOST_PROCESS_SHARED_MEMORY_H
+
+
+#if _WIN32
+#endif
+
+#ifdef __linux__
+#endif
+
+
+
 #include "SharedMutex.h"
 
 template <typename T>

@@ -1,6 +1,12 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
+#if _WIN32
+#endif
+
+#ifdef __linux__
+#endif
+
 #include <string>
 #include <vector>
 

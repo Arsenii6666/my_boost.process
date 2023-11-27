@@ -1,10 +1,21 @@
-#include <iostream>
-#include <unistd.h>
+
+
+#if _WIN32
+#endif
+
+
+#ifdef __linux__
 #include <sys/wait.h>
+#endif
+
+
+#include <unistd.h>
+#include <semaphore.h>
+
 #include <vector>
 #include <string.h>
+#include <iostream>
 #include "Process.h"
-#include <semaphore.h>
 
 /*
     An auxillary POSIX-compatible function for launching a process represented by Process object.
@@ -28,7 +39,9 @@ void launchChild(Process& process) {
 
     char* const* argvArray = argv.data();
 
+#ifdef __linux__
     execvp(executablePath.c_str(), argvArray);
+#endif
 
     // Reached only if error occured
     std::cerr << "Error: Exec failed." << std::endl;
@@ -44,6 +57,7 @@ void launchChild(Process& process) {
 */
 int linuxLaunch(Process& process) {
 
+#ifdef __linux__
     pid_t pid = fork();
 
     if (pid < 0) {
@@ -60,6 +74,8 @@ int linuxLaunch(Process& process) {
         // std::cout << "in linuxLaunch : " << process.getPID() << std::endl;
         return pid;
     }
+#endif
+
 }
 
 /*
@@ -71,6 +87,7 @@ int linuxKill(Process& process, bool killSig = SIGTERM) {
 
     pid_t pid = process.getPID();
 
+#ifdef __linux__
     std::cout << pid << std::endl;
     if (kill(pid, killSig) != 0) {
         std::cerr << ("Error from linuxKill : ") << strerror(errno) << std::endl;
@@ -78,6 +95,8 @@ int linuxKill(Process& process, bool killSig = SIGTERM) {
     }
     std::cout << "Killed : " << pid << std::endl;
     return 0;
+#endif
+
 }
 
 
@@ -88,8 +107,12 @@ int linuxKill(Process& process, bool killSig = SIGTERM) {
 */
 int linuxWaitForExit(Process& process) {
     int status = 0;
+
+#ifdef __linux__
     waitpid(process.getPID(), &status, 0); // TODO : test this
     return status;
+#endif
+
 }
 
 /*
@@ -103,6 +126,7 @@ int linuxWaitForExit(Process& process) {
 int* linuxPipeRedirectOutput(Process& out_process, Process& in_process, const char* sem_name) {
     // TODO : Solve the bs with this one not redirecting
 
+#ifdef __linux__
     pid_t output_pid;
     pid_t input_pid;
     int stdin_fd = STDIN_FILENO;
@@ -185,4 +209,6 @@ int* linuxPipeRedirectOutput(Process& out_process, Process& in_process, const ch
     out_process.setPID(output_pid);
     in_process.setPID(input_pid);
     return pipe_fd;
+#endif
+
 }

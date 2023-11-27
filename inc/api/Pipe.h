@@ -12,6 +12,12 @@
 #include <random>
 
 
+#if _WIN32
+#endif
+
+#ifdef __linux__
+#endif
+
 /*
     Provides the interface for the organization of IPC using named pipes.
     Represents a created Pipe and stores information about it.  
@@ -100,7 +106,11 @@ private:
         std::mt19937 generator(random_device());
         std::uniform_int_distribution<> distribution(0, chars.size() - 1);
         std::ostringstream oss;
+
+#ifdef __linux__
         oss << "/" << getpid() << "_";
+
+#endif
         std::string random_string = oss.str();
 
         for (std::size_t i = 0; i < chars.length(); ++i) {

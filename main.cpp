@@ -5,7 +5,11 @@
 #include "Pipe.h"
 #include <iostream>
 #include "SharedMutex.h"
+
+#ifdef __linux__
 #include <sys/wait.h>
+#endif
+
 
 // int main(int argc, char* argv[]) {
 //     Process proc1("ls");
@@ -21,6 +25,16 @@
 // }
 
 int main() {
+
+#if _WIN32
+#endif
+
+#ifdef __linux__
+#endif
+
+
+#ifdef __linux__
+
     SharedMutex sh_mut("shared_mutex");
     int shm_fd = shm_open("int", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     ftruncate(shm_fd, sizeof(int));
@@ -61,5 +75,7 @@ int main() {
 
     ftruncate(shm_fd, 0);
     shm_unlink("int");
+#endif
+
     return 0;
 }
