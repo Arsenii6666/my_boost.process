@@ -7,6 +7,9 @@ int ProcessCreation::launch(Process& process) {
     #ifdef __linux__
         launchedPID = linuxLaunch(process);
     #endif
+    #ifdef __windows__
+        launchedPID = windowsLaunch(process);
+    #endif
     return launchedPID;
 }
 
@@ -15,12 +18,18 @@ int ProcessCreation::wait_for_exit(Process& process) {
     #ifdef __linux__
         status = linuxWaitForExit(process);
     #endif
+    #ifdef __windows__
+        status = windowsWaitForExit(process);
+    #endif
     return status;
 }
 
 int ProcessCreation::kill(Process& process) {
     #ifdef __linux__
         return linuxKill(process);
+    #endif
+    #ifdef __windows__
+        return windowsKill(process);
     #endif
     return 0;
 }
