@@ -1,6 +1,5 @@
-
-#ifndef LINUX_PROC_CREATION
-#define LINUX_PROC_CREATION
+#ifndef WINDOWS_PROC_CREATION
+#define WINDOWS_PROC_CREATION
 #include <signal.h>
 #include "Process.h"
 #include <semaphore.h>

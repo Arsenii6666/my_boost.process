@@ -1,5 +1,6 @@
 #include "process_creation.h"
 #include "linux_proc_creation.h"
+#include "windows_proc_creation.h"
 #include "Pipe.h"
 
 int ProcessCreation::launch(Process& process) {
@@ -7,7 +8,7 @@ int ProcessCreation::launch(Process& process) {
     #ifdef __linux__
         launchedPID = linuxLaunch(process);
     #endif
-    #ifdef __windows__
+    #ifdef _WIN32
         launchedPID = windowsLaunch(process);
     #endif
     return launchedPID;
@@ -18,7 +19,7 @@ int ProcessCreation::wait_for_exit(Process& process) {
     #ifdef __linux__
         status = linuxWaitForExit(process);
     #endif
-    #ifdef __windows__
+    #ifdef _WIN32
         status = windowsWaitForExit(process);
     #endif
     return status;
@@ -28,7 +29,7 @@ int ProcessCreation::kill(Process& process) {
     #ifdef __linux__
         return linuxKill(process);
     #endif
-    #ifdef __windows__
+    #ifdef _WIN32
         return windowsKill(process);
     #endif
     return 0;

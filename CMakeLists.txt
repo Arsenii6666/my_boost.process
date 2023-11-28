@@ -57,6 +57,7 @@ include(cmake/CompilerWarnings.cmake)
 #! Project main executable source compilation
 set(SOURCE_FILES
     src/linux/linux_proc_creation.cpp
+	src/windows/windows_proc_creation.cpp
     src/api/IPC_process_creation.cpp
 	src/api/process_creation.cpp
 	main.cpp

@@ -1,9 +1,3 @@
-
-
-#if _WIN32
-#endif
-
-
 #ifdef __linux__
 #include <sys/wait.h>
 #endif
