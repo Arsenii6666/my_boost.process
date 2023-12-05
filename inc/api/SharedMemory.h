@@ -1,7 +1,17 @@
 
 #ifndef MY_BOOST_PROCESS_SHARED_MEMORY_H
 #define MY_BOOST_PROCESS_SHARED_MEMORY_H
+
+#ifdef __FreeBSD__
+    #define __BEGIN_DECLS extern "C" {
+    #define __END_DECLS }
+#endif
+
 #include "SharedMutex.h"
+
+#include <string>
+#include <semaphore>
+#include <cstring>
 #include <memory>
 
 template <typename T>
@@ -44,8 +54,8 @@ public:
         if (close(mem_fd) < 0) {
             std::cerr << "Could not close the memory descriptor in SharedMemory" << std::endl;
         }
-    };
 #endif
+    };
 
     SharedMemory(SharedMemory&) = delete;
 
@@ -116,12 +126,19 @@ public:
         return current_value;
     }
 
+    /*
+     * Make memory unable to be written anymore.
+     */
     void freeze() {
         frozen = true;
     };
 
     bool is_frozen() {
         return frozen;
+    }
+
+    size_t get_size() {
+        return size;
     }
 
 private :
